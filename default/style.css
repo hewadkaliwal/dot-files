@@ -1,0 +1,363 @@
+@import "../../colors.css";
+* {
+    font-family: "JetBrainsMono Nerd Font", "Noto Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+window#waybar {
+    background: transparent;
+    color: #d8dee9;
+}
+
+.modules-left,
+.modules-center {
+    background: rgba(20, 24, 30, 0.45);
+    border: 2px solid alpha(@primary, 0.35);
+    border-radius: 12px;
+    margin-top: 2px;
+    margin-bottom: 0;
+    padding: 1px 3px;
+}
+
+.modules-left {
+    margin-left: 8px;
+}
+
+.modules-right {
+    background: transparent;
+    border: none;
+    margin-top: 2px;
+    margin-bottom: 0;
+    margin-right: 8px;
+    padding: 1px 3px;
+}
+
+#workspaces {
+    padding: 0 2px;
+}
+
+#workspaces button {
+    color: #7f8794;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 2px 7px;
+    margin: 0 3px;
+}
+
+#workspaces button.active {
+    color: #eceff4;
+    background: rgba(20, 24, 30, 0.55);
+}
+
+#workspaces button:hover {
+    color: #eceff4;
+    background: rgba(20, 24, 30, 0.20);
+}
+
+/* Workspace colors */
+#workspaces button:nth-child(1) {
+    color: #88c0d0;
+}
+
+#workspaces button:nth-child(2) {
+    color: #81a1c1;
+}
+
+#workspaces button:nth-child(3) {
+    color: #b48ead;
+}
+
+#workspaces button:nth-child(4) {
+    color: #d08770;
+}
+
+#workspaces button:nth-child(5) {
+    color: #ebcb8b;
+}
+
+#workspaces button:nth-child(6) {
+    color: #a3be8c;
+}
+
+#workspaces button:nth-child(7) {
+    color: #8fbcbb;
+}
+
+#workspaces button:nth-child(8) {
+    color: #5e81ac;
+}
+
+#workspaces button:nth-child(9) {
+    color: #bf616a;
+}
+
+#workspaces button:nth-child(10) {
+    color: #d8dee9;
+}
+
+#clock {
+    color: @primary;
+    padding: 2px 9px;
+    font-weight: 800;
+}
+
+#clock:hover {
+    background: rgba(20, 24, 30, 0.20);
+    border-radius: 8px;
+}
+
+#custom-system,
+#custom-network,
+#pulseaudio,
+#backlight,
+#battery,
+#tray {
+    padding: 2px 7px;
+    margin: 0;
+    border-radius: 8px;
+    color: #d8dee9;
+}
+
+#custom-system {
+    color: #88c0d0;
+    font-weight: 800;
+}
+
+#custom-network {
+    color: #a3be8c;
+    font-weight: 800;
+    padding-left: 0;
+    padding-right: 8px;
+}
+
+#pulseaudio {
+    color: #88c0d0;
+    font-weight: 800;
+}
+
+#backlight {
+    color: #ebcb8b;
+    font-weight: 800;
+}
+
+#battery {
+    color: #a3be8c;
+    font-weight: 800;
+}
+
+#battery.charging {
+    color: #a3be8c;
+}
+
+#battery.warning {
+    color: #ebcb8b;
+}
+
+#battery.critical {
+    color: #bf616a;
+}
+
+#tray {
+    color: #d8dee9;
+}
+
+tooltip {
+    background: rgba(30, 35, 42, 0.97);
+    border: 1px solid rgba(216, 222, 233, 0.12);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+tooltip label {
+    color: #d8dee9;
+}
+
+#custom-nowplaying {
+    color: #d8dee9;
+    padding: 2px 8px;
+    margin: 0 3px;
+    border-radius: 8px;
+    font-weight: 700;
+}
+
+#custom-nowplaying:hover {
+    background: rgba(20, 24, 30, 0.20);
+}
+
+/* Notification */
+#custom-notification {
+    font-size: 18px;
+    font-family: "Material Icons", "JetBrainsMono Nerd Font", sans-serif;
+    color: #81a1c1;
+    padding: 2px 7px;
+    margin: 0;
+    border-radius: 8px;
+}
+
+/* Notification states */
+#custom-notification.dnd-none,
+#custom-notification.dnd-notification {
+    color: #bf616a;
+}
+
+#custom-notification.inhibited-none,
+#custom-notification.inhibited-notification {
+    color: #ebcb8b;
+}
+
+#custom-notification.dnd-inhibited-none,
+#custom-notification.dnd-inhibited-notification {
+    color: #bf616a;
+}
+
+/* Power */
+#custom-exit {
+    color: #bf616a;
+    padding: 2px 7px;
+    margin: 0;
+    border-radius: 8px;
+}
+
+/* RIGHT SIDE - 3 SEPARATE SECTIONS */
+
+/* System section */
+#custom-system {
+    border: 2px solid alpha(@primary, 0.35);
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    padding: 2px 4px 2px 8px;
+}
+
+#custom-network {
+    border-top: 2px solid alpha(@primary, 0.35);
+    border-bottom: 2px solid alpha(@primary, 0.35);
+    padding: 2px 4px 2px 0;
+}
+
+#power-profiles-daemon {
+    border: 2px solid alpha(@primary, 0.35);
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    padding: 2px 8px 2px 4px;
+}
+
+/* Media section */
+#pulseaudio {
+    border: 2px solid alpha(@primary, 0.35);
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    padding: 2px 4px 2px 8px;
+}
+
+#backlight {
+    border-top: 2px solid alpha(@primary, 0.35);
+    border-bottom: 2px solid alpha(@primary, 0.35);
+    padding: 2px 4px;
+}
+
+#battery {
+    border: 2px solid alpha(@primary, 0.35);
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    padding: 2px 8px 2px 4px;
+}
+
+/* Actions section */
+#tray {
+    border: 2px solid alpha(@primary, 0.35);
+    border-right: none;
+    border-radius: 10px 0 0 10px;
+    padding: 2px 4px 2px 8px;
+}
+
+#custom-notification {
+    border-top: 2px solid alpha(@primary, 0.35);
+    border-bottom: 2px solid alpha(@primary, 0.35);
+    padding: 2px 4px;
+}
+
+#custom-exit {
+    border: 2px solid alpha(@primary, 0.35);
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    padding: 2px 8px 2px 4px;
+}
+
+/* RIGHT SIDE - 3 GROUP BACKGROUNDS */
+
+/* System */
+#custom-system,
+#custom-network,
+#power-profiles-daemon {
+    background: rgba(20, 24, 30, 0.45);
+}
+
+/* Media */
+#pulseaudio,
+#backlight,
+#battery {
+    background: rgba(20, 24, 30, 0.45);
+}
+
+/* Actions */
+#tray,
+#custom-notification,
+#custom-exit {
+    background: rgba(20, 24, 30, 0.45);
+}
+
+/* RIGHT SIDE HOVER - KEEP TINT */
+#custom-system:hover,
+#custom-network:hover,
+#power-profiles-daemon:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#battery:hover,
+#tray:hover,
+#custom-notification:hover,
+#custom-exit:hover {
+     background: rgba(20, 24, 30, 0.55);
+}
+
+/* Right-side icon colors */
+
+#custom-system {
+    color: #88c0d0;
+}
+
+#custom-network {
+    color: #a3be8c;
+}
+
+#power-profiles-daemon {
+    color: #ebcb8b;
+}
+
+#pulseaudio {
+    color: #88c0d0;
+}
+
+#backlight {
+    color: #ebcb8b;
+}
+
+#battery {
+    color: #a3be8c;
+}
+
+#tray {
+    color: #b48ead;
+}
+
+#custom-exit {
+    color: #bf616a;
+}
+
+#custom-taskbar-arrow {
+    font-size: 20px;
+    font-weight: bold;
+    color: #88c0d0;
+}
+

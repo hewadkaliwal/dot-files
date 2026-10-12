@@ -1,0 +1,336 @@
+// ~/.config/waybar/config
+//
+// "Eli" style: every module is its own rounded pill, dot workspaces, an app drawer
+// and Spotify controls. Layout:
+//   left   : workspaces · app drawer · Spotify (prev / play / next + title)
+//   center : clock
+//   right  : cpu·temp·mem | network·bluetooth·battery | audio·brightness·idle·power | Fedora
+//
+// Needs: a Nerd Font, playerctl, and (optional) pavucontrol blueman btop kitty wlogout wofi/rofi.
+// The hidden "custom/accent" module at the bottom keeps the accent colour in style.css
+// in sync with the system accent.
+{
+  "layer": "top",
+  "position": "top",
+  "height": 32,
+  "margin-top": 1,
+  "margin-left": 8,
+  "margin-right": 8,
+  "spacing": 0,
+  "reload_style_on_change": true,
+
+  "modules-left": ["hyprland/workspaces", "group/apps", "group/spotify", "mpris"],
+  "modules-center": ["clock"],
+  "modules-right": ["group/stats", "group/status", "group/controls", "custom/fedora", "custom/accent"],
+
+  "group/stats": {
+    "orientation": "horizontal",
+    "modules": ["cpu", "temperature", "memory"]
+  },
+
+  "group/status": {
+    "orientation": "horizontal",
+    "modules": ["network", "bluetooth", "battery"]
+  },
+
+  "group/controls": {
+    "orientation": "horizontal",
+    "modules": ["pulseaudio", "backlight"]
+  },
+
+  // ── Workspaces ────────────────────────────────────────────────────────────
+  // Dots: dim = empty, brighter = has windows, accent pill = active.
+  // Scroll over it to change workspace.
+  "hyprland/workspaces": {
+    "format": "{windows}{icon}",
+    "format-window-separator": " ",
+    "window-rewrite-default": "",
+    "window-rewrite": {
+    "class<.*(org.gnome.Decibels|decibels).*>": "󰕾",
+    "class<.*blueman-adapters.*>": "󰂯",
+    "class<.*blueman-manager.*>": "󰂯",
+    "class<.*(org.gnome.Boxes|gnome-boxes).*>": "󰆧",
+    "class<.*(org.gnome.Calculator|gnome-calculator).*>": "󰃬",
+    "class<.*(org.gnome.Calendar|gnome-calendar).*>": "󰃭",
+    "class<.*(org.gnome.Snapshot|snapshot).*>": "󰄀",
+    "class<.*(org.gnome.Characters|gnome-characters).*>": "󰗊",
+    "class<.*(org.gnome.clocks|gnome-clocks).*>": "󰥔",
+    "class<.*(ColorProfileViewer|gcm-viewer|gnome-color-manager).*>": "󰏘",
+    "class<.*(org.gnome.Connections|gnome-connections).*>": "󰖟",
+    "class<.*(org.gnome.Contacts|gnome-contacts).*>": "󰛭",
+    "class<.*crx__pliiebkcmokkgndfalahlmimanmbjlab.*>": "󰙯",
+    "class<.*crx__dcljhhclkenmplecmcdhliifjnmfbjhj.*>": "",
+    "class<.*crx__lmipdmmijpfoffcofgedahcddjgmmkao.*>": "",
+    "class<.*(org.gnome.baobab|baobab).*>": "󰋊",
+    "class<.*(org.gnome.DiskUtility|gnome-disks).*>": "󰋊",
+    "class<.*(org.gnome.SimpleScan|simple-scan).*>": "󰚫",
+    "class<.*(org.gnome.Papers|papers).*>": "󰈙",
+    "class<.*(org.fedoraproject.MediaWriter|mediawriter).*>": "󰓅",
+    "class<.*(org.gnome.Nautilus|nautilus).*>": "󰉋",
+    "class<.*(org.gnome.font-viewer|gnome-font-viewer).*>": "󰛖",
+    "class<.*(gnome-system-monitor|org.gnome.SystemMonitor).*>": "󰨇",
+    "class<.*(nwg-look|qt6ct).*>": "󰒓",
+    "class<.*(org.gnome.Yelp|yelp).*>": "󰋽",
+    "class<.*io.github.bluemancz.hyprmod.*>": "󰍹",
+    "class<.*(yad-icon-browser|yad).*>": "󰕙",
+    "class<.*(org.gnome.Loupe|loupe).*>": "󰋩",
+    "class<.*(libreoffice-calc|soffice-calc).*>": "󰈛",
+    "class<.*(libreoffice-impress|soffice-impress).*>": "󰈧",
+    "class<.*(libreoffice-writer|soffice-writer).*>": "󰈙",
+    "class<.*(org.gnome.Logs|gnome-logs).*>": "󰦪",
+    "class<.*(org.gnome.Maps|gnome-maps).*>": "󰍎",
+    "class<.*(microsoft-edge|Microsoft-edge|microsoft-edge-stable).*>": "󰇩",
+    "class<.*(MalcontentControl|malcontent-control).*>": "󰌾",
+    "class<.*qbittorrent.*>": "󰇚",
+    "class<.*(rofi|Rofi).*>": "󰍜",
+    "class<.*rygel-preferences.*>": "󰒓",
+    "class<.*(org.gnome.Settings|gnome-control-center).*>": "󰒓",
+    "class<.*(org.gnome.Software|gnome-software).*>": "󰏖",
+    "class<.*(spotify|com.spotify.Client).*>": "",
+    "class<.*(org.gnome.Ptyxis|ptyxis).*>": "",
+    "class<.*(org.gnome.TextEditor|gnome-text-editor).*>": "󰏫",
+    "class<.*(timeshift|timeshift-gtk).*>": "󰁯",
+    "class<.*(org.gnome.Tour|gnome-tour).*>": "󰗚",
+    "class<.*uuctl.*>": "󰒓",
+    "class<.*(org.gnome.Showtime|showtime).*>": "󰕼",
+    "class<.*(com.microsoft.VSCode|code|codium).*>": "󰨞",
+    "class<.*(vlc|org.videolan.VLC).*>": "󰕼",
+    "class<.*(org.pulseaudio.pavucontrol|pavucontrol).*>": "󰕾",
+    "class<.*(org.gnome.Weather|gnome-weather).*>": "󰖐",
+    "class<.*(kitty|Alacritty|alacritty|wezterm|foot).*>": "",
+    "class<.*(obsidian|md.obsidian.Obsidian).*>": "󰠮"
+},
+    "format-icons": {
+      "active": "",
+      "default": "●",
+      "empty": "●",
+      "persistent": "",
+      "visible": "",
+      "special": "●",
+      "urgent": "●"
+    },
+    "all-outputs": false,
+    "persistent-workspaces": { "*": 5 },
+    "on-scroll-up": "hyprctl dispatch workspace e-1",
+    "on-scroll-down": "hyprctl dispatch workspace e+1"
+  },
+
+
+  // ── Taskbar drawer ────────────────────────────────────────────────────────
+  // Hover the grid icon to slide out the running apps.
+  //   click an icon: focus it · middle click: close it
+  // Want click-to-open instead of hover? Add  "click-to-reveal": true  to "drawer".
+  "group/apps": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 300,
+      "transition-left-to-right": true,
+      "children-class": "drawer-child"
+    },
+    "modules": ["custom/apps", "wlr/taskbar"]
+  },
+
+  "custom/apps": {
+    "exec": "echo x",
+    "interval": "once",
+    "format": "󰀻",
+    "tooltip": false
+  },
+
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 18,
+    "all-outputs": false,
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close"
+  },
+
+  // ── Spotify ───────────────────────────────────────────────────────────────
+  // All of this hides itself when Spotify is not running.
+  // Scroll over the play button or the title to change Spotify's own volume.
+  "group/spotify": {
+    "orientation": "horizontal",
+    "modules": ["custom/sp-prev", "custom/sp-toggle", "custom/sp-next"]
+  },
+
+  "custom/sp-prev": {
+    "exec": "echo x",
+    "exec-if": "playerctl -p spotify status",
+    "interval": 2,
+    "format": "󰒮",
+    "tooltip": false,
+    "on-click": "playerctl -p spotify previous"
+  },
+
+  "custom/sp-toggle": {
+    "exec": "bash -c 's=$(playerctl -p spotify status 2>/dev/null); case $s in Playing) a=playing;; Paused) a=paused;; *) a=stopped;; esac; echo \"{\\\"alt\\\":\\\"$a\\\",\\\"class\\\":\\\"$a\\\"}\"'",
+    "exec-if": "playerctl -p spotify status",
+    "return-type": "json",
+    "interval": 1,
+    "format": "{icon}",
+    "format-icons": { "playing": "󰏤", "paused": "󰐊", "stopped": "󰐊" },
+    "tooltip": false,
+    "on-click": "playerctl -p spotify play-pause",
+    "on-scroll-up": "playerctl -p spotify volume 0.05+",
+    "on-scroll-down": "playerctl -p spotify volume 0.05-"
+  },
+
+  "custom/sp-next": {
+    "exec": "echo x",
+    "exec-if": "playerctl -p spotify status",
+    "interval": 2,
+    "format": "󰒭",
+    "tooltip": false,
+    "on-click": "playerctl -p spotify next"
+  },
+
+  "mpris": {
+    "player": "spotify",
+    "format": "{dynamic}",
+    "format-stopped": "",
+    "dynamic-order": ["title", "artist"],
+    "dynamic-separator": "  –  ",
+    "dynamic-len": 34,
+    "tooltip-format": "{artist} — {title}\n{album}\n\nscroll: Spotify volume",
+    "on-click": "playerctl -p spotify play-pause",
+    "on-scroll-up": "playerctl -p spotify volume 0.05+",
+    "on-scroll-down": "playerctl -p spotify volume 0.05-"
+  },
+
+  // ── Clock ─────────────────────────────────────────────────────────────────
+  // click: switch to the long 12-hour format · hover: calendar (scroll = change month)
+  "clock": {
+    "format": "󰥔  {:%I:%M  ·  %a %d %b %y}",
+    "format-alt": "󰥔  {:%H:%M  ·  %a %d %b %y}",
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "calendar": { "mode": "month", "on-scroll": 1 },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+
+  // ── System stats ──────────────────────────────────────────────────────────
+  "cpu": {
+    "interval": 2,
+    "format": "󰻠 {usage}%",
+    "states": { "warning": 70, "critical": 90 },
+    "on-click": "kitty -e btop"
+  },
+
+  // Uses thermal_zone0 by default, which is fine on most laptops. To pin it to
+  // the real CPU sensor, uncomment ONE of these (Intel shown):
+  //   "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+  //   "input-filename": "temp1_input",
+  "temperature": {
+    "interval": 3,
+    "critical-threshold": 85,
+    "format": "󰔏 {temperatureC}°C",
+    "on-click": "kitty -e btop"
+  },
+
+  "memory": {
+    "interval": 5,
+    "format": "󰍛 {percentage}%",
+    "states": { "warning": 75, "critical": 90 },
+    "tooltip-format": "{used:0.1f} GiB of {total:0.1f} GiB\nSwap {swapUsed:0.1f} / {swapTotal:0.1f} GiB",
+    "on-click": "kitty -e btop"
+  },
+
+  // ── System status ─────────────────────────────────────────────────────────
+  // left click: network TUI · right click: toggle Wi-Fi
+  "network": {
+    "interval": 5,
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰈀",
+    "format-linked": "󰈀",
+    "format-disconnected": "󰤮",
+    "format-disabled": "󰖪",
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "tooltip-format-wifi": "{essid}  ({signalStrength}%)\n{ipaddr}/{cidr}\n↓ {bandwidthDownBytes}   ↑ {bandwidthUpBytes}",
+    "tooltip-format-ethernet": "{ifname}\n{ipaddr}/{cidr}\n↓ {bandwidthDownBytes}   ↑ {bandwidthUpBytes}",
+    "tooltip-format-disconnected": "Not connected",
+    "tooltip-format-disabled": "Wi-Fi is off",
+    "on-click": "kitty -e nmtui",
+    "on-click-right": "rfkill toggle wifi"
+  },
+
+  // left click: Blueman · right click: toggle Bluetooth
+  "bluetooth": {
+    "format": "󰂯",
+    "format-on": "󰂯",
+    "format-off": "󰂲",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱 {device_alias}",
+    "format-connected-battery": "󰂱 {device_alias} {device_battery_percentage}%",
+    "max-length": 26,
+    "tooltip-format": "{controller_alias}\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}  {device_battery_percentage}%",
+    "on-click": "blueman-manager",
+    "on-click-right": "rfkill toggle bluetooth"
+  },
+
+  // Hides itself on desktops.
+  "battery": {
+    "interval": 30,
+    "states": { "warning": 25, "critical": 12 },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰚥 {capacity}%",
+    "format-icons": [
+      "󰁺", "󰁻", "󰁼", "󰁽", "󰁾",
+      "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"
+    ],
+    "tooltip-format": "{timeTo}\n{power:.1f} W"
+  },
+
+  // ── System controls ───────────────────────────────────────────────────────
+  // scroll: volume · left click: mixer · right click: mute
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟",
+    "format-bluetooth": "󰋋 {volume}%",
+    "format-bluetooth-muted": "󰝟",
+    "format-icons": {
+      "headphone": "󰋋",
+      "headset": "󰋋",
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "scroll-step": 2,
+    "tooltip-format": "{desc}\n{volume}%",
+    "on-click": "pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+
+  // scroll: brightness. Hides itself when there is no backlight (desktops).
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "scroll-step": 5
+  },
+
+  // ── Fedora ────────────────────────────────────────────────────────────────
+  // left click: app launcher (wofi, falling back to rofi)
+  "custom/fedora": {
+    "exec": "bash -c '. /etc/os-release 2>/dev/null; printf '\\''{\"text\":\"x\",\"tooltip\":\"%s\"}\\n'\\'' \"${PRETTY_NAME:-Fedora Linux}\"'",
+    "return-type": "json",
+    "interval": "once",
+    "format": "",
+    "on-click": "sh -c 'wofi --show drun -n || rofi -show drun'"
+  },
+
+  // ── System accent sync ────────────────────────────────────────────────────
+  // Invisible module (empty output). Every 3s it reads the system accent and, only if it
+  // changed, rewrites the "@define-color accent" line at the top of style.css.
+  // Delete this module (and its entry in "modules-right") to hard-code the colour instead.
+  "custom/accent": {
+    "exec": "bash -c 'f=$HOME/.config/waybar/style.css; a=$(gsettings get org.gnome.desktop.interface accent-color 2>/dev/null); case $a in *teal*) h=#5bc8d4;; *green*) h=#78d98a;; *yellow*) h=#f5c859;; *orange*) h=#ff9c52;; *red*) h=#f46a74;; *pink*) h=#ec8fbd;; *purple*) h=#c28ddb;; *slate*) h=#9fb0c0;; *) h=#78aeed;; esac; grep -q \"accent $h;\" $f || { sed \"s/^@define-color accent .*/@define-color accent $h;/\" $f > /tmp/.wb-style.$$ && cat /tmp/.wb-style.$$ > $f; rm -f /tmp/.wb-style.$$; }'",
+    "interval": 3,
+    "format": "",
+    "tooltip": false
+  }
+}

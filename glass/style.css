@@ -1,0 +1,327 @@
+/* ~/.config/waybar/style.css
+ * Glass Waybar for Hyprland on Fedora. Pairs with config.jsonc.
+ *
+ * Waybar is GTK3, so there is no backdrop-filter in CSS. The frosted blur
+ * comes from Hyprland (layerrule blur on the "waybar" namespace). This file
+ * only provides the translucent tint, the highlight edges and the shapes.
+ * Add the blur rule to hyprland.conf (see the notes next to this file).
+ */
+
+/* ---------- Palette ---------- */
+@define-color text       #e9eef7;
+@define-color text_dim   rgba(233, 238, 247, 0.55);
+@define-color accent     #51a2da;   /* Fedora blue */
+@define-color accent_hi  #7cc0f2;
+@define-color glass      rgba(22, 26, 38, 0.46);
+@define-color glass_edge rgba(255, 255, 255, 0.16);
+@define-color green      #8fe3b0;
+@define-color yellow     #f2cd7c;
+@define-color red        #ff7a90;
+
+/* ---------- Reset ---------- */
+* {
+  font-family: "JetBrainsMono Nerd Font", "Symbols Nerd Font", "Inter", "Cantarell", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+window#waybar {
+  background: transparent;
+  color: @text;
+}
+
+/* ---------- Glass pills ---------- */
+#custom-fedora,
+#workspaces,
+#taskbar,
+#clock,
+#custom-spotify-prev,
+#mpris,
+#custom-spotify-next,
+#stats,
+#controls,
+#power {
+  margin: 5px 3px;
+  padding: 0 12px;
+  color: @text;
+  background-color: @glass;
+  background-image: linear-gradient(to bottom,
+                                    rgba(255, 255, 255, 0.13),
+                                    rgba(255, 255, 255, 0.02));
+  border: 1px solid @glass_edge;
+  border-radius: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ---------- Tooltips ---------- */
+tooltip {
+  background-color: rgba(18, 21, 31, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+}
+
+tooltip label {
+  color: @text;
+  padding: 2px 6px;
+}
+
+/* ---------- Fedora logo ---------- */
+#custom-fedora {
+  padding: 0 15px 0 13px;
+  font-size: 18px;
+  color: @accent_hi;
+}
+
+#custom-fedora:hover {
+  color: #ffffff;
+  background-color: alpha(@accent, 0.45);
+}
+
+/* ---------- Workspaces ---------- */
+#workspaces {
+  padding: 0 4px;
+}
+
+#workspaces button {
+  margin: 4px 2px;
+  padding: 0 9px;
+  border-radius: 14px;
+  color: @text_dim;
+  background-color: transparent;
+  background-image: none;
+  transition: all 0.25s ease-in-out;
+}
+
+#workspaces button.empty {
+  color: alpha(@text, 0.30);
+}
+
+#workspaces button:hover {
+  color: @text;
+  background-color: rgba(255, 255, 255, 0.14);
+  background-image: none;
+}
+
+#workspaces button.visible {
+  color: @text;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+#workspaces button.active {
+  color: #ffffff;
+  background-color: alpha(@accent, 0.78);
+  background-image: linear-gradient(to bottom,
+                                    rgba(255, 255, 255, 0.28),
+                                    rgba(255, 255, 255, 0));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38);
+}
+
+#workspaces button.urgent {
+  color: #ffffff;
+  background-color: alpha(@red, 0.85);
+  background-image: none;
+}
+
+/* ---------- Task manager (open apps) ---------- */
+#taskbar {
+  padding: 0 5px;
+}
+
+/* nothing open: hide the empty pill */
+#taskbar.empty {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+#taskbar button {
+  margin: 4px 1px;
+  padding: 0 7px;
+  border-radius: 12px;
+  background-color: transparent;
+  background-image: none;
+  transition: all 0.25s ease-in-out;
+}
+
+#taskbar button:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+  background-image: none;
+}
+
+/* focused window: soft highlight + accent underline */
+#taskbar button.active {
+  background-color: rgba(255, 255, 255, 0.16);
+  background-image: none;
+  box-shadow: inset 0 -2px 0 @accent;
+}
+
+#taskbar button.minimized {
+  opacity: 0.45;
+}
+
+#taskbar button.urgent {
+  background-color: alpha(@red, 0.55);
+}
+
+/* ---------- Clock ---------- */
+#clock {
+  padding: 0 20px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+#clock:hover {
+  color: @accent_hi;
+}
+
+/* ---------- Spotify controller (three joined glass pieces) ---------- */
+#custom-spotify-prev,
+#custom-spotify-next {
+  color: @text_dim;
+  font-size: 12px;
+}
+
+#custom-spotify-prev {
+  margin-right: 0;
+  padding: 0 8px 0 15px;
+  border-right: none;
+  border-radius: 18px 0 0 18px;
+}
+
+#mpris {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0 10px;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+}
+
+#custom-spotify-next {
+  margin-left: 0;
+  padding: 0 15px 0 8px;
+  border-left: none;
+  border-radius: 0 18px 18px 0;
+}
+
+#custom-spotify-prev:hover,
+#custom-spotify-next:hover {
+  color: @accent_hi;
+  background-color: alpha(@accent, 0.30);
+}
+
+#mpris.playing {
+  color: @text;
+}
+
+#mpris.paused,
+#mpris.stopped {
+  color: @text_dim;
+}
+
+#mpris:hover {
+  color: @green;
+}
+
+/* ---------- Grouped pills: stats + controls ---------- */
+#stats,
+#controls {
+  padding: 0 6px;
+}
+
+#cpu,
+#temperature,
+#memory,
+#network,
+#bluetooth,
+#pulseaudio,
+#backlight,
+#battery {
+  padding: 0 8px;
+  color: @text;
+  background-color: transparent;
+  transition: color 0.2s ease;
+}
+
+#network:hover,
+#bluetooth:hover,
+#pulseaudio:hover,
+#backlight:hover {
+  color: @accent_hi;
+}
+
+#temperature.critical {
+  color: @red;
+}
+
+#network.disconnected,
+#bluetooth.off,
+#bluetooth.disabled,
+#pulseaudio.muted {
+  color: @text_dim;
+}
+
+#bluetooth.connected {
+  color: @accent_hi;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @green;
+}
+
+#battery.warning:not(.charging) {
+  color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+  color: @red;
+  animation-name: blink;
+  animation-duration: 0.8s;
+  animation-timing-function: steps(12);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  to {
+    color: #ffffff;
+  }
+}
+
+/* ---------- Power drawer ---------- */
+#power {
+  padding: 0 4px;
+}
+
+#custom-power {
+  padding: 0 10px;
+  color: @accent_hi;
+}
+
+.power-child {
+  padding: 0 9px;
+  color: @text_dim;
+  transition: color 0.2s ease;
+}
+
+.power-child:hover {
+  color: #ffffff;
+}
+
+#custom-shutdown {
+  color: alpha(@red, 0.85);
+}
+
+#custom-shutdown:hover {
+  color: @red;
+}

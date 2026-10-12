@@ -1,0 +1,274 @@
+// ~/.config/waybar/config.jsonc
+// Glass Waybar for Hyprland on Fedora. Pairs with style.css (same folder).
+// Needs a Nerd Font for the icons (see style.css for the font name).
+{
+  "layer": "top",
+  "position": "top",
+  "height": 44,
+  "margin-top": 6,
+  "margin-left": 10,
+  "margin-right": 10,
+  "spacing": 0,
+  "exclusive": true,
+  "reload_style_on_change": true,
+
+  "modules-left": [
+    "custom/fedora",
+    "hyprland/workspaces",
+    "wlr/taskbar"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "custom/spotify-prev",
+    "mpris",
+    "custom/spotify-next",
+    "group/stats",
+    "group/controls",
+    "group/power"
+  ],
+
+  // --- Fedora logo (click = app launcher) ---------------------------------
+  "custom/fedora": {
+    "format": "",
+    "tooltip": false,
+    // swap for your launcher: "wofi --show drun", "fuzzel", ...
+    "on-click": "pkill rofi || rofi -show drun"
+  },
+
+  // --- Workspaces ---------------------------------------------------------
+  "hyprland/workspaces": {
+    "format": "{id}",
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+    "persistent-workspaces": {
+      "*": 5
+    }
+  },
+
+  // --- Task manager: one icon per open window -----------------------------
+  // left click = focus, middle click = close window
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 20,
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "ignore-list": [],
+    "app_ids-mapping": {
+      "firefoxdeveloperedition": "firefox-developer-edition"
+    }
+  },
+
+  // --- Clock: 12h time + day, date, month, year ---------------------------
+  // use %A / %B instead of %a / %b for full day and month names
+  "clock": {
+    "interval": 30,
+    "format": "{:%I:%M %p   %a, %d %b %Y}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#7cc0f2'><b>{}</b></span>",
+        "weekdays": "<span color='#9fb4d6'><b>{}</b></span>",
+        "weeks": "<span color='#6f7a93'><small>W{}</small></span>",
+        "days": "<span color='#e9eef7'>{}</span>",
+        "today": "<span color='#ffffff' bgcolor='#51a2da'><b>{}</b></span>"
+      }
+    },
+    "actions": {
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+
+  // --- Spotify controller -------------------------------------------------
+  // [prev] [ now playing ] [next]
+  // click the title = play/pause, scroll over it = Spotify volume.
+  // The whole thing hides itself when Spotify is not running.
+  "custom/spotify-prev": {
+    "format": "",
+    "exec": "echo ok",
+    "exec-if": "playerctl -p spotify status",
+    "interval": 2,
+    "tooltip": false,
+    "on-click": "playerctl -p spotify previous"
+  },
+  "mpris": {
+    "player": "spotify",
+    "format": "  {dynamic}",
+    "format-paused": "  {dynamic}",
+    "format-stopped": "  Spotify",
+    "dynamic-order": ["artist", "title"],
+    "dynamic-separator": "  -  ",
+    "dynamic-len": 38,
+    "tooltip-format": "{title}\n{artist}\n{album}",
+    "on-click": "playerctl -p spotify play-pause",
+    "on-scroll-up": "playerctl -p spotify volume 0.05+",
+    "on-scroll-down": "playerctl -p spotify volume 0.05-"
+  },
+  "custom/spotify-next": {
+    "format": "",
+    "exec": "echo ok",
+    "exec-if": "playerctl -p spotify status",
+    "interval": 2,
+    "tooltip": false,
+    "on-click": "playerctl -p spotify next"
+  },
+
+  // --- System stats: CPU / temperature / memory ---------------------------
+  "group/stats": {
+    "orientation": "horizontal",
+    "modules": ["cpu", "temperature", "memory"]
+  },
+
+  "cpu": {
+    "interval": 2,
+    "format": "  {usage}%",
+    "tooltip-format": "CPU usage: {usage}%\nLoad: {load}"
+  },
+
+  "temperature": {
+    "interval": 3,
+    // Default reads /sys/class/thermal/thermal_zone0. If the number looks wrong,
+    // find your CPU sensor with:  grep . /sys/class/hwmon/hwmon*/name
+    // then uncomment ONE of these (Intel / AMD) and fix the hwmon number:
+    // "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+    // "input-filename": "temp1_input",
+    // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80,
+    "format": "{icon}  {temperatureC}°C",
+    "format-critical": "  {temperatureC}°C",
+    "format-icons": ["", "", "", "", ""]
+  },
+
+  "memory": {
+    "interval": 5,
+    "format": "󰍛  {percentage}%",
+    "tooltip-format": "{used:0.1f} GiB used of {total:0.1f} GiB\nSwap: {swapUsed:0.1f} GiB"
+  },
+
+  // --- Connectivity + hardware controls -----------------------------------
+  // On a desktop PC, backlight and battery simply hide themselves.
+  "group/controls": {
+    "orientation": "horizontal",
+    "modules": ["network", "bluetooth", "pulseaudio", "backlight", "battery"]
+  },
+
+  "network": {
+    "interval": 5,
+    "format-wifi": "  {essid}",
+    "format-ethernet": "󰈀  Wired",
+    "format-disconnected": "󰖪  Offline",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ifname}: {ipaddr}\nUp {bandwidthUpBytes}  Down {bandwidthDownBytes}",
+    "tooltip-format-ethernet": "{ifname}: {ipaddr}",
+    "tooltip-format-disconnected": "Not connected",
+    "max-length": 24,
+    "on-click": "nm-connection-editor"
+  },
+
+  "bluetooth": {
+    "format": "󰂯",
+    "format-off": "󰂲",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱  {device_alias}",
+    "format-connected-battery": "󰂱  {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}  {device_battery_percentage}%",
+    "max-length": 22,
+    "on-click": "blueman-manager"
+  },
+
+  // Left click = mixer, right click = mute, scroll = volume
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-bluetooth": "{icon}  {volume}%",
+    "format-muted": "󰖁  Muted",
+    "format-icons": {
+      "headphone": "",
+      "headset": "",
+      "hands-free": "",
+      "default": ["", "", ""]
+    },
+    "tooltip-format": "{desc}\nVolume: {volume}%",
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+
+  // Scroll to change brightness
+  "backlight": {
+    "format": "{icon}  {percent}%",
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "tooltip-format": "Brightness: {percent}%",
+    "scroll-step": 5
+  },
+
+  "battery": {
+    "interval": 30,
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "{timeTo}\n{power:0.1f} W"
+  },
+
+  // --- Power menu: hover the power icon to slide the options out ----------
+  "group/power": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 350,
+      "transition-left-to-right": false,
+      "children-class": "power-child"
+    },
+    "modules": [
+      "custom/power",
+      "custom/lock",
+      "custom/suspend",
+      "custom/logout",
+      "custom/reboot",
+      "custom/shutdown"
+    ]
+  },
+  "custom/power": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/lock": {
+    "format": "",
+    "tooltip": false,
+    // swap for swaylock etc. if you don't use hyprlock
+    "on-click": "hyprlock"
+  },
+  "custom/suspend": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "systemctl suspend"
+  },
+  "custom/logout": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "hyprctl dispatch exit"
+  },
+  "custom/reboot": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "systemctl reboot"
+  },
+  "custom/shutdown": {
+    "format": "",
+    "tooltip": false,
+    "on-click": "systemctl poweroff"
+  }
+}

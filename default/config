@@ -1,0 +1,237 @@
+{
+    "include": [
+    "~/.config/waybar/modules.json"
+    ],
+
+    "layer": "top",
+    "position": "top",
+    "height": 42,
+    "spacing": 6,
+
+    "modules-left": [
+        "hyprland/workspaces",
+        "custom/nowplaying",
+        "group/taskbar"
+    ],
+
+    "modules-center": [
+        "clock"
+
+    ],
+
+    "modules-right": [
+        "group/system",
+        "group/media",
+        "group/actions"
+    ],
+
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "sort-by-number": true,
+        "all-outputs": false,
+        "disable-scroll": false
+    },
+
+    "clock": {
+        "interval": 1,
+        "format": "{:%a • %d %b • %I:%M %p}",
+        "tooltip": false
+    },
+
+    "custom/system": {
+        "format": "{}",
+        "exec": "~/.config/waybar/scripts/system-status.sh",
+        "interval": 2,
+        "return-type": "json",
+        "tooltip": true,
+        "escape": true
+    },
+
+    "group/system": {
+        "orientation": "horizontal",
+         "modules": [
+            "custom/system",
+            "custom/network",
+            "power-profiles-daemon"
+        ] 
+    },
+
+    "custom/network": {
+        "format": "{}",
+        "exec": "~/.config/waybar/scripts/network-status.sh",
+        "interval": 3,
+        "signal": 8,
+        "return-type": "json",
+        "on-click": "~/.config/waybar/scripts/network-toggle.sh",
+        "on-click-right": "~/.config/ml4w/scripts/ml4w-toggle-nmapplet toggle",
+        "tooltip": true,
+        "escape": true
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 muted",
+        "format-bluetooth": "{icon} {volume}% ",
+        "format-bluetooth-muted": "󰝟 muted ",
+
+        "format-icons": {
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        },
+
+        "scroll-step": 1,
+
+        "on-click": "pavucontrol",
+
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+
+        "tooltip": true,
+        "tooltip-format": "Volume: {volume}%\nScroll: change volume\nLeft click: audio settings\nRight click: mute"
+    },
+
+    "backlight": {
+        "format": "{icon} {percent}%",
+
+        "format-icons": [
+            "󰃞",
+            "󰃟",
+            "󰃠"
+        ],
+
+        "scroll-step": 5,
+
+        "on-scroll-up": "brightnessctl set 1%+",
+        "on-scroll-down": "brightnessctl set 1%-",
+
+        "tooltip": true,
+        "tooltip-format": "Brightness: {percent}%\nScroll: change brightness"
+    },
+
+    "battery": {
+        "interval": 10,
+
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰚥 {capacity}%",
+
+        "format-icons": [
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+        ],
+
+        "tooltip": true,
+        "tooltip-format": "{capacity}%\n{time}"
+    },
+
+    "group/media": {
+        "orientation": "horizontal",
+        "modules": [
+            "pulseaudio",
+            "backlight",
+            "battery"
+        ]
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    },
+
+    "group/actions": {
+        "orientation": "horizontal",
+        "modules": [
+             "tray",
+             "custom/notification",
+             "custom/exit"
+        ]
+    },
+
+    "custom/notification": {
+    "tooltip-format": "Left: Notifications\nRight: Do not disturb",
+    "format": "{icon}",
+    "format-icons": {
+        "notification": "notifications_active",
+        "none": "notifications",
+        "dnd-notification": "do_not_disturb_on",
+        "dnd-none": "do_not_disturb_on",
+        "inhibited-notification": "notification_important",
+        "inhibited-none": "notification_important",
+        "dnd-inhibited-notification": "do_not_disturb_on",
+        "dnd-inhibited-none": "do_not_disturb_on"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+    },
+
+    "custom/nowplaying": {
+       "exec": "~/.config/ml4w/scripts/ml4w-now-playing",
+       "format": "  {text}",
+       "return-type": "json",
+       "interval": 1,
+       "escape": true,
+       "hide-empty-text": false,
+       "max-length": 10,
+       "on-click": "playerctl -p spotify play-pause",
+       "on-click-right": "playerctl -p spotify next",
+       "on-click-middle": "playerctl -p spotify previous",
+       "on-scroll-up": "playerctl -p spotify volume 0.05+",
+       "on-scroll-down": "playerctl -p spotify volume 0.05-",
+      "tooltip-format": "Spotify\nLeft: Play/Pause\nRight: Next\nMiddle: Previous\nScroll: Volume"
+    },
+    
+    "wlr/taskbar": {
+       "format": "{icon}",
+       "icon-size": 18,
+       "tooltip-format": "{title}",
+       "on-click": "activate",
+       "on-click-middle": "close",
+       "ignore-list": [
+          "Alacritty"
+        ],
+        "app_ids-mapping": {
+            "firefoxdeveloperedition": "firefox-developer-edition"
+        },
+        "rewrite": {
+           "Firefox Web Browser": "Firefox",
+           "Foot Server": "Terminal"
+        }
+    },
+
+    "custom/taskbar-arrow": {
+        "format": "󰅂",
+        "tooltip": false
+    },
+
+    "group/taskbar": {
+        "orientation": "horizontal",
+        "drawer": {
+            "transition-duration": 300,
+            "click-to-reveal": true
+        },
+        "modules": [
+            "custom/taskbar-arrow",
+            "wlr/taskbar"
+        ]
+    }
+}
