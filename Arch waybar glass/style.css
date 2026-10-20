@@ -1,0 +1,227 @@
+/* ~/.config/waybar/style.css
+ * Tri-island · minimal glass · neutral white
+ *
+ * The bar itself is fully transparent. Each island is a translucent tinted pane.
+ * The real blur comes from Hyprland (layerrule for "waybar"), so it adapts to any wallpaper.
+ * Tweak the look from the palette + the three "glass" numbers below.
+ */
+
+/* ───────────── palette ───────────── */
+@define-color accent    #ffffff;                   /* accent (also used in config.jsonc spans) */
+@define-color text      #f1f1f1;
+@define-color text_dim  #9a9a9a;
+@define-color warn      #fbbf24;
+@define-color crit      #f87171;
+@define-color glass     rgba(18, 18, 20, 0.38);     /* island tint: raise alpha = darker / more opaque */
+
+/* ───────────── reset ───────────── */
+* {
+  font-family: "JetBrainsMono Nerd Font", "JetBrainsMono NF", "Symbols Nerd Font", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+  background-image: none;
+}
+
+window#waybar {
+  background: transparent;
+  color: @text;
+}
+
+/* ───────────── the three islands ───────────── */
+#island-left,
+#island-center,
+#island-right {
+  padding: 0 6px;
+  background-color: @glass;
+  background-image: linear-gradient(180deg,
+                      rgba(255, 255, 255, 0.10) 0%,
+                      rgba(255, 255, 255, 0.02) 55%,
+                      rgba(255, 255, 255, 0.03) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 19px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* ───────────── shared module look ───────────── */
+#custom-arch,
+#custom-logout,
+#custom-suspend,
+#custom-reboot,
+#custom-poweroff,
+#custom-tasks,
+#workspaces button,
+#taskbar button,
+#mpris,
+#clock,
+#cpu,
+#memory,
+#temperature,
+#pulseaudio,
+#backlight,
+#bluetooth {
+  margin: 4px 1px;
+  padding: 0 10px;
+  color: @text;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease;
+}
+
+#custom-arch:hover,
+#custom-tasks:hover,
+#workspaces button:hover,
+#taskbar button:hover,
+#mpris:hover,
+#clock:hover,
+#cpu:hover,
+#memory:hover,
+#temperature:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#bluetooth:hover {
+  background-color: alpha(@accent, 0.14);
+}
+
+/* ───────────── LEFT: arch / power menu ───────────── */
+#custom-arch {
+  padding: 0 12px 0 11px;
+  font-size: 17px;
+  color: @accent;
+}
+
+#custom-logout,
+#custom-suspend,
+#custom-reboot,
+#custom-poweroff {
+  padding: 0 9px;
+}
+
+#custom-logout:hover,
+#custom-suspend:hover,
+#custom-reboot:hover {
+  color: @accent;
+  background-color: alpha(@accent, 0.16);
+}
+
+#custom-poweroff:hover {
+  color: @crit;
+  background-color: alpha(@crit, 0.16);
+}
+
+/* ───────────── LEFT: workspaces ─────────────
+ * inactive = small dim dot
+ * active   = icon of the app you're focused on (a dot if the workspace is empty)
+ * dot size = font-size of "button label" · icon size = font-size of "button.active label"
+ */
+#workspaces {
+  margin: 0 2px;
+}
+
+#workspaces button {
+  margin: 4px 1px;
+  padding: 0 7px;
+  color: @text_dim;
+}
+
+#workspaces button label {
+  font-size: 9px;
+}
+
+#workspaces button:hover {
+  color: @text;
+}
+
+#workspaces button.active {
+  padding: 0 12px;
+  color: @accent;
+  background-color: alpha(@accent, 0.20);
+  border-color: alpha(@accent, 0.45);
+}
+
+#workspaces button.active label {
+  font-size: 15px;
+}
+
+/* active workspace with no apps: keep it a dot */
+#workspaces button.active.empty {
+  padding: 0 10px;
+}
+
+#workspaces button.active.empty label {
+  font-size: 9px;
+}
+
+#workspaces button.urgent {
+  color: @crit;
+}
+
+/* ───────────── LEFT: task manager (hover drawer) ───────────── */
+#custom-tasks {
+  color: @accent;
+  padding: 0 11px;
+}
+
+#taskbar button {
+  padding: 0 6px;
+  margin: 4px 1px;
+  border-radius: 12px;
+}
+
+#taskbar button.active {
+  background-color: alpha(@accent, 0.20);
+  border-color: alpha(@accent, 0.45);
+}
+
+/* ───────────── CENTER: media + clock ───────────── */
+#mpris {
+  padding: 0 12px 0 14px;
+}
+
+#mpris.paused {
+  color: @text_dim;
+}
+
+#clock {
+  padding: 0 14px;
+}
+
+/* ───────────── RIGHT: system ───────────── */
+#temperature.warning  { color: @warn; }
+#temperature.critical { color: @crit; }
+
+#pulseaudio.muted {
+  color: @text_dim;
+}
+
+#bluetooth {
+  padding: 0 12px;
+}
+
+#bluetooth.off,
+#bluetooth.disabled {
+  color: @text_dim;
+}
+
+#bluetooth.connected {
+  color: @accent;
+}
+
+/* ───────────── tooltips ───────────── */
+tooltip {
+  background-color: rgba(18, 18, 20, 0.88);
+  border: 1px solid alpha(@accent, 0.30);
+  border-radius: 12px;
+}
+
+tooltip label {
+  padding: 4px 6px;
+  color: @text;
+}

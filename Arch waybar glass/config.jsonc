@@ -1,0 +1,251 @@
+// ~/.config/waybar/config.jsonc
+// Tri-island neutral glass bar for Hyprland: [ left ]      [ center ]      [ right ]
+// Accent colour #ffffff is used in the icon <span>s below and in style.css (@define-color accent).
+
+{
+  "layer": "top",
+  "position": "top",
+  "height": 38,
+  "margin-top": 8,
+  "margin-left": 12,
+  "margin-right": 12,
+  "spacing": 0,
+  "exclusive": true,
+  "reload_style_on_change": true,
+
+  "modules-left": ["group/island-left"],
+  "modules-center": ["group/island-center"],
+  "modules-right": ["group/island-right"],
+
+  // ───────────────────────── ISLANDS ─────────────────────────
+  "group/island-left": {
+    "orientation": "horizontal",
+    "modules": ["group/power", "hyprland/workspaces", "group/taskmanager"]
+  },
+  "group/island-center": {
+    "orientation": "horizontal",
+    "modules": ["mpris", "clock"]
+  },
+  "group/island-right": {
+    "orientation": "horizontal",
+    "modules": ["cpu", "memory", "temperature", "pulseaudio", "backlight", "bluetooth"]
+  },
+
+  // ───────────────────── ARCH LOGO = POWER MENU ─────────────────────
+  // Click the logo to slide the buttons open, click it again to close them.
+  "group/power": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 350,
+      "transition-left-to-right": true,
+      "click-to-reveal": true
+    },
+    "modules": ["custom/arch", "custom/logout", "custom/suspend", "custom/reboot", "custom/poweroff"]
+  },
+  "custom/arch": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/logout": {
+    "format": "",
+    "tooltip-format": "Logout",
+    "on-click": "hyprctl dispatch exit"      // using UWSM? change to: uwsm stop
+  },
+  "custom/suspend": {
+    "format": "",
+    "tooltip-format": "Suspend",
+    "on-click": "systemctl suspend"
+  },
+  "custom/reboot": {
+    "format": "",
+    "tooltip-format": "Reboot",
+    "on-click": "systemctl reboot"
+  },
+  "custom/poweroff": {
+    "format": "",
+    "tooltip-format": "Power off",
+    "on-click": "systemctl poweroff"
+  },
+
+  // ───────────────────── WORKSPACES ─────────────────────
+  // Inactive workspace  = a dot
+  // Active workspace    = ONLY the icon of the app you are focused on
+  //                       (if it has 2+ apps, it follows the one you select)
+  // Active but empty    = a dot
+  // Click a dot = go to that workspace. Scroll on the strip = previous / next.
+  //
+  // How it works: {icon} is picked by state (see "format-icons"). Inactive shows the dot and hides
+  // the app text; active hides the dot and shows the first window, which "first" below makes the
+  // focused one. Every "window-rewrite" value ends with the same hide-marker, so when you add an app,
+  // copy an existing line and only change the class and the icon.
+  "hyprland/workspaces": {
+    "format": "{icon}{windows}</span>",
+    "format-icons": {
+      "default": "<span alpha='1' size='1024'>",
+      "active": "<span>"
+    },
+    "tooltips": {
+      "default": "Workspace {id}",
+      "active": "Workspace {id}"
+    },
+    "max-windows": 1,
+    "workspace-taskbar": {
+      "enable": false,
+      "update-active-window": true,
+      "active-window-position": "first"
+    },
+    "format-window-separator": " ",
+    "show-special": false,
+    "all-outputs": false,
+    "active-only": false,
+    "on-scroll-up": "hyprctl dispatch workspace e-1",
+    "on-scroll-down": "hyprctl dispatch workspace e+1",
+    "window-rewrite-default": "</span><span alpha='1' size='1024'>",
+    "window-rewrite": {
+      "class<(firefox|firefox-esr|librewolf|floorp|zen|zen-browser|zen-alpha)>": "</span><span alpha='1' size='1024'>",
+      "class<(google-chrome|google-chrome-stable|chromium|brave-browser|brave|vivaldi.*|microsoft-edge.*|opera)>": "</span><span alpha='1' size='1024'>",
+      "class<(kitty|alacritty|foot|footclient|wezterm|org.wezfurlong.wezterm|com.mitchellh.ghostty|ghostty|konsole|org.kde.konsole|gnome-terminal.*|xterm|st|st-256color|tilix|terminator)>": "</span><span alpha='1' size='1024'>",
+      "class<(code|code-oss|vscodium|codium|cursor|zed|dev.zed.Zed|jetbrains-.*|sublime_text)>": "</span><span alpha='1' size='1024'>",
+      "class<(org.gnome.Nautilus|thunar|org.kde.dolphin|dolphin|nemo|pcmanfm|pcmanfm-qt|yazi)>": "</span><span alpha='1' size='1024'>",
+      "class<spotify>": "</span><span alpha='1' size='1024'>",
+      "class<(discord|vesktop|legcord|armcord|webcord)>": "</span><span alpha='1' size='1024'>",
+      "class<(org.telegram.desktop|telegram-desktop|telegramdesktop)>": "</span><span alpha='1' size='1024'>",
+      "class<(whatsapp.*|zapzap)>": "</span><span alpha='1' size='1024'>",
+      "class<slack>": "</span><span alpha='1' size='1024'>",
+      "class<(steam|steam_app_.*|lutris|heroic)>": "</span><span alpha='1' size='1024'>",
+      "class<(mpv|vlc|io.mpv.Mpv|celluloid|org.gnome.Totem)>": "</span><span alpha='1' size='1024'>",
+      "class<(obs|com.obsproject.Studio|zoom|teams.*|org.jitsi.*)>": "</span><span alpha='1' size='1024'>",
+      "class<(obsidian|logseq|notion.*|org.gnome.TextEditor|gedit|kate)>": "</span><span alpha='1' size='1024'>",
+      "class<(org.pwmt.zathura|zathura|evince|org.gnome.Evince|okular|org.kde.okular|calibre.*)>": "</span><span alpha='1' size='1024'>",
+      "class<(imv|feh|org.gnome.Loupe|loupe|eog|gwenview|swayimg)>": "</span><span alpha='1' size='1024'>",
+      "class<(gimp.*|krita|org.inkscape.Inkscape|inkscape|blender)>": "</span><span alpha='1' size='1024'>",
+      "class<(thunderbird|org.mozilla.Thunderbird|evolution|geary)>": "</span><span alpha='1' size='1024'>",
+      "class<(libreoffice.*|onlyoffice.*|org.onlyoffice.*)>": "</span><span alpha='1' size='1024'>",
+      "class<(pavucontrol|org.pulseaudio.pavucontrol|blueman-manager|.blueman-manager-wrapped|nm-connection-editor|nwg-look)>": "</span><span alpha='1' size='1024'>"
+    }
+  },
+
+  // ───────────── TASK MANAGER (hover to open) ─────────────
+  // Hover the grid icon and every open app slides out. Click an app = jump to it
+  // (and its workspace). Middle-click an app = close it.
+  "group/taskmanager": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 350,
+      "transition-left-to-right": true,
+      "click-to-reveal": false
+    },
+    "modules": ["custom/tasks", "wlr/taskbar"]
+  },
+  "custom/tasks": {
+    "format": "",
+    "tooltip": false
+  },
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 18,
+    "icon-theme": "Papirus",
+    "tooltip-format": "{title}",
+    "all-outputs": false,
+    "on-click": "activate",
+    "on-click-middle": "close"
+  },
+
+  // ───────────────────── MEDIA (Spotify only) ─────────────────────
+  // Left click  = play / pause
+  // Right click = next track
+  // Middle click= previous track (Spotify restarts the song if >3s in; click twice to go back)
+  // Scroll      = Spotify volume up / down
+  // Hidden automatically when Spotify is not running.
+  "mpris": {
+    "player": "spotify",
+    "format": "<span foreground='#ffffff'></span>  {dynamic}",
+    "format-paused": "<span foreground='#ffffff'></span>  {dynamic}",
+    "dynamic-order": ["artist", "title"],
+    "dynamic-len": 32,
+    "tooltip-format": "{artist} - {title}\n{album}",
+    "on-scroll-up": "playerctl -p spotify volume 0.05+",
+    "on-scroll-down": "playerctl -p spotify volume 0.05-"
+  },
+
+  // ───────────────────── CLOCK: 03:45 PM · Wed, 21 Oct ─────────────────────
+  "clock": {
+    "format": "{:%I:%M %p  ·  %a, %d %b}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffffff'><b>{}</b></span>",
+        "weekdays": "<span color='#ffffff'>{}</span>",
+        "days": "<span color='#d6d6d6'>{}</span>",
+        "today": "<span color='#111111' bgcolor='#ffffff'><b> {} </b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
+  },
+
+  // ───────────────────── CPU / MEMORY / TEMPERATURE ─────────────────────
+  "cpu": {
+    "interval": 2,
+    "format": "<span foreground='#ffffff'></span> {usage:02}%",
+    "tooltip-format": "CPU load: {usage}%"
+  },
+  "memory": {
+    "interval": 3,
+    "format": "<span foreground='#ffffff'>󰍛</span> {percentage}%",
+    "tooltip-format": "{used:0.1f} GiB used of {total:0.1f} GiB"
+  },
+  "temperature": {
+    "interval": 3,
+    // If the number looks wrong (e.g. shows the motherboard sensor), pick your CPU sensor:
+    //   AMD CPU  -> "hwmon-by-name": "k10temp",  "input-filename": "temp1_input"
+    //   Intel    -> "hwmon-by-name": "coretemp", "input-filename": "temp1_input"
+    // Find yours with:  grep . /sys/class/hwmon/hwmon*/name
+    "warning-threshold": 70,
+    "critical-threshold": 85,
+    "format": "<span foreground='#ffffff'></span> {temperatureC}°C",
+    "format-warning": "<span foreground='#fbbf24'></span> {temperatureC}°C",
+    "format-critical": "<span foreground='#f87171'></span> {temperatureC}°C"
+  },
+
+  // ───────────────────── AUDIO / BRIGHTNESS / BLUETOOTH ─────────────────────
+  "pulseaudio": {
+    "format": "<span foreground='#ffffff'>{icon}</span> {volume}%",
+    "format-muted": "<span foreground='#ffffff'></span> muted",
+    "format-bluetooth": "<span foreground='#ffffff'></span> {volume}%",
+    "format-icons": {
+      "headphone": "",
+      "headset": "",
+      "default": ["", ""]
+    },
+    "scroll-step": 5,
+    "max-volume": 100,
+    "tooltip-format": "{desc}",
+    "on-click": "pavucontrol",
+    "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+  },
+  "backlight": {
+    "format": "<span foreground='#ffffff'></span> {percent}%",
+    "tooltip-format": "Brightness: {percent}%",
+    "scroll-step": 5,
+    "min-brightness": 1
+  },
+  "bluetooth": {
+    "format": "<span foreground='#ffffff'></span>",
+    "format-connected": "<span foreground='#ffffff'></span> {num_connections}",
+    "format-off": "",
+    "format-disabled": "",
+    "tooltip-format": "Bluetooth on\n{controller_alias}  {controller_address}",
+    "tooltip-format-connected": "{controller_alias}\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}  {device_address}",
+    "tooltip-format-off": "Bluetooth off (right-click to turn on)",
+    "tooltip-format-disabled": "Bluetooth blocked (right-click to unblock)",
+    "on-click": "blueman-manager",
+    "on-click-right": "rfkill toggle bluetooth"
+  }
+}
