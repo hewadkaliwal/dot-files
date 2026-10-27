@@ -1,0 +1,475 @@
+@import "../../colors.css";
+/* ~/.config/waybar/style.css  ("Eli" style)
+ *
+ * Every module is its own rounded, translucent pill. Dots for workspaces,
+ * accent for "active", dim for "off".
+ *
+ * Font: any Nerd Font. On Fedora:
+ *   sudo dnf copr enable che/nerd-fonts && sudo dnf install nerd-fonts
+ *
+ * Blur behind the pills (add to hyprland.conf, see my notes for the exact syntax):
+ *   namespace "waybar", ignore_alpha 0.5   (pills are 0.78 opaque, gaps are 0)
+ */
+
+/* Accent: the "custom/accent" module in `config` rewrites THIS line to match the
+ * system accent. Keep it on its own line, starting at column 0.
+ *
+ * Prefer Pywal colours like the original dotfiles? Delete the line below and use
+ *   @import url("/home/YOURUSER/.cache/wal/colors-waybar.css");
+ *   @define-color accent @color4;
+ * (and remove the "custom/accent" module from `config`). */
+@define-color accent #78aeed;
+
+@define-color surface   rgba(18, 18, 22, 0.78);
+@define-color text      #e6e6ea;
+@define-color muted     rgba(230, 230, 234, 0.38);
+@define-color on_accent #14141a;
+@define-color warn      #f2c46d;
+@define-color crit      #f2707a;
+
+/* ── Reset ─────────────────────────────────────────────────────────────── */
+
+* {
+  font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", "Symbols Nerd Font", "Noto Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+  background-image: none;
+}
+
+window#waybar {
+  background-color: transparent;
+  color: @text;
+}
+
+/* ── Pills ─────────────────────────────────────────────────────────────── */
+
+#workspaces,
+#apps,
+#mpris,
+#clock,
+#stats,
+#status,
+#controls,
+#custom-notification,
+#custom-fedora,
+#custom-sp-prev,
+#custom-sp-toggle,
+#custom-sp-next {
+  background-color: @surface;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  color: @text;
+  margin: 0 4px;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+/* ── Workspaces: dim dot = empty, brighter dot = has windows, accent pill = active ── */
+
+#workspaces {
+  padding: 0 6px;
+}
+
+#workspaces button {
+  margin: 4px 1px;
+  padding: 0 7px;
+  border-radius: 12px;
+  background-color: transparent;
+  color: alpha(@text, 0.78);          /* has windows */
+  font-size: 11px;
+  transition: background-color 80ms ease-out, color 80ms ease-out, padding 80ms ease-out;
+}
+
+#custom-workspace-1.empty,
+#custom-workspace-2.empty,
+#custom-workspace-3.empty,
+#custom-workspace-4.empty,
+#custom-workspace-5.empty {
+  color: alpha(@text, 0.22);
+}
+
+#workspaces button.empty {
+  color: alpha(@text, 0.22);
+}
+
+#workspaces button:hover {
+  background-color: alpha(@primary, 0.20);
+  color: @text;
+}
+
+#workspaces button.active {
+  padding: 0 12px;
+  background-color: alpha(@primary, 0.20);
+  color: @primary;
+}
+
+#workspaces button.urgent {
+  background-color: @crit;
+  color: @on_accent;
+}
+
+/* Custom workspaces keep the original pill theme while showing one focused app icon. */
+#group-workspaces {
+  background-color: @surface;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  color: @text;
+  margin: 0 4px;
+  padding: 0 6px;
+}
+
+#custom-workspace-1,
+#custom-workspace-2,
+#custom-workspace-3,
+#custom-workspace-4,
+#custom-workspace-5,
+#custom-workspace-6,
+#custom-workspace-7,
+#custom-workspace-8,
+#custom-workspace-9,
+#custom-workspace-10 {
+  border-radius: 12px;
+  color: alpha(@text, 0.78);
+  font-size: 11px;
+  margin: 4px 1px;
+  min-width: 10px;
+  padding: 0 7px;
+  transition: background-color 100ms ease-out, color 100ms ease-out, padding 100ms ease-out;
+}
+
+#custom-workspace-1.active,
+#custom-workspace-2.active,
+#custom-workspace-3.active,
+#custom-workspace-4.active,
+#custom-workspace-5.active,
+#custom-workspace-6.active,
+#custom-workspace-7.active,
+#custom-workspace-8.active,
+#custom-workspace-9.active,
+#custom-workspace-10.active,
+#custom-workspace-1.active-empty,
+#custom-workspace-2.active-empty,
+#custom-workspace-3.active-empty,
+#custom-workspace-4.active-empty,
+#custom-workspace-5.active-empty,
+#custom-workspace-6.active-empty,
+#custom-workspace-7.active-empty,
+#custom-workspace-8.active-empty,
+#custom-workspace-9.active-empty,
+#custom-workspace-10.active-empty {
+  background-color: alpha(@primary, 0.20);
+  color: @primary;
+  min-width: 16px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+#custom-workspace-1.active,
+#custom-workspace-2.active,
+#custom-workspace-3.active,
+#custom-workspace-4.active,
+#custom-workspace-5.active,
+#custom-workspace-6.active,
+#custom-workspace-7.active,
+#custom-workspace-8.active,
+#custom-workspace-9.active,
+#custom-workspace-10.active {
+  font-size: 14px;
+}
+
+#custom-workspace-1:hover,
+#custom-workspace-2:hover,
+#custom-workspace-3:hover,
+#custom-workspace-4:hover,
+#custom-workspace-5:hover,
+#custom-workspace-6:hover,
+#custom-workspace-7:hover,
+#custom-workspace-8:hover,
+#custom-workspace-9:hover,
+#custom-workspace-10:hover {
+  background-color: alpha(@primary, 0.20);
+  color: @primary;
+}
+
+#custom-workspace-1.empty,
+#custom-workspace-2.empty,
+#custom-workspace-3.empty,
+#custom-workspace-4.empty,
+#custom-workspace-5.empty,
+#custom-workspace-6.empty,
+#custom-workspace-7.empty,
+#custom-workspace-8.empty,
+#custom-workspace-9.empty,
+#custom-workspace-10.empty {
+  border: none;
+  margin: 0;
+  min-width: 0;
+  opacity: 0;
+  padding: 0;
+}
+
+/* ── Taskbar drawer ────────────────────────────────────────────────────── */
+
+#apps {
+  padding: 0 4px;
+}
+
+#custom-apps {
+  margin: 4px 1px;
+  padding: 0 9px;
+  border-radius: 12px;
+  color: @text;
+  font-size: 15px;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+#custom-apps:hover {
+  background-color: alpha(@primary, 0.18);
+  color: @primary;
+}
+
+#taskbar button {
+  margin: 4px 1px;
+  padding: 0 6px;
+  border-radius: 12px;
+  background-color: transparent;
+  transition: background-color 150ms ease;
+}
+
+#taskbar button:hover {
+  background-color: alpha(@primary, 0.16);
+}
+
+#taskbar button.active {
+  background-color: alpha(@primary, 0.28);
+}
+
+#taskbar button.minimized {
+  opacity: 0.5;
+}
+
+/* ── Spotify: [ prev | play | next ] capsule + title pill ──────────────── */
+
+#custom-sp-prev,
+#custom-sp-toggle,
+#custom-sp-next {
+  padding: 0 10px;
+  font-size: 15px;
+}
+
+#custom-sp-prev {
+  margin: 0 0 0 4px;
+  border-radius: 16px 0 0 16px;
+}
+
+#custom-sp-toggle {
+  margin: 0;
+  border-radius: 0;
+}
+
+#custom-sp-next {
+  margin: 0;
+  border-radius: 0 16px 16px 0;
+}
+
+#custom-sp-toggle.playing {
+  color: @primary;
+}
+
+#custom-sp-prev:hover,
+#custom-sp-toggle:hover,
+#custom-sp-next:hover {
+  background-color: mix(@surface, @primary, 0.22);
+  color: @primary;
+}
+
+#mpris {
+  margin: 0 4px 0 8px;
+  padding: 0 14px;
+}
+
+#mpris.playing {
+  color: @text;
+}
+
+#mpris.paused {
+  color: @muted;
+}
+
+#mpris:hover {
+  background-color: mix(@surface, @primary, 0.20);
+}
+
+/* ── Clock ─────────────────────────────────────────────────────────────── */
+
+#clock {
+  padding: 0 16px;
+  font-weight: 600;
+}
+
+#clock:hover {
+  background-color: mix(@surface, @primary
+, 0.20);
+}
+
+/* ── Grouped pills (stats, status, controls) ───────────────────────────── */
+
+#stats,
+#status,
+#controls {
+  padding: 0 4px;
+}
+
+#cpu,
+#temperature,
+#memory,
+#network,
+#bluetooth,
+#battery,
+#pulseaudio,
+#backlight,
+#power-profiles-daemon,
+#idle_inhibitor,
+#custom-power {
+  margin: 4px 1px;
+  padding: 0 9px;
+  border-radius: 12px;
+  color: @text;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+#cpu:hover,
+#temperature:hover,
+#memory:hover,
+#network:hover,
+#bluetooth:hover,
+#battery:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#power-profiles-daemon:hover,
+#idle_inhibitor:hover {
+  background-color: alpha(@primary, 0.18);
+}
+
+#custom-power:hover {
+  background-color: alpha(@crit, 0.22);
+  color: @crit;
+}
+
+/* Connected / active things take the accent; off or muted things go quiet. */
+
+#network.wifi,
+#network.ethernet,
+#network.linked,
+#bluetooth.connected,
+#idle_inhibitor.activated,
+#battery.charging,
+#battery.plugged {
+  color: @primary;
+}
+
+#network.disconnected,
+#network.disabled,
+#bluetooth.off,
+#bluetooth.disabled,
+#pulseaudio.muted,
+#power-profiles-daemon.power-saver,
+#idle_inhibitor.deactivated {
+  color: @muted;
+}
+
+#power-profiles-daemon {
+  color: @primary;
+}
+
+#power-profiles-daemon.performance {
+  color: @warn;
+}
+
+#power-profiles-daemon,
+#power-profiles-daemon.performance,
+#power-profiles-daemon.balanced,
+#power-profiles-daemon.power-saver {
+  color: #ffffff;
+}
+
+/* Load and charge warnings */
+
+#cpu.warning,
+#memory.warning {
+  color: @warn;
+}
+
+#cpu.critical,
+#memory.critical,
+#temperature.critical {
+  color: @crit;
+}
+
+#battery.warning:not(.charging) {
+  color: @warn;
+}
+
+#battery.critical:not(.charging) {
+  color: @crit;
+  animation-name: blink;
+  animation-duration: 0.8s;
+  animation-timing-function: steps(2);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  to {
+    color: @text;
+  }
+}
+
+/* ── Fedora ────────────────────────────────────────────────────────────── */
+
+#custom-notification {
+  padding: 0 12px;
+  font-size: 16px;
+  color: @primary;
+}
+
+#custom-notification:hover {
+  background-color: mix(@surface, @primary, 0.25);
+  color: @primary;
+}
+
+#custom-notification.dnd-none,
+#custom-notification.dnd-notification,
+#custom-notification.dnd-inhibited-none,
+#custom-notification.dnd-inhibited-notification {
+  color: @muted;
+}
+
+#custom-fedora {
+  padding: 0 13px;
+  font-size: 17px;
+  color: @primary;
+}
+
+#custom-fedora:hover {
+  background-color: mix(@surface, @primary, 0.25);
+}
+
+/* ── Tooltips ──────────────────────────────────────────────────────────── */
+
+tooltip {
+  background-color: rgba(18, 18, 22, 0.94);
+  border: 1px solid alpha(@primary, 0.45);
+  border-radius: 12px;
+}
+
+tooltip label {
+  padding: 6px 8px;
+  color: @text;
+}
