@@ -1,0 +1,446 @@
+/* ~/.config/waybar/style.css
+ * Glass Waybar for Hyprland on Fedora. Pairs with config.jsonc.
+ *
+ * Waybar is GTK3, so there is no backdrop-filter in CSS. The frosted blur
+ * comes from Hyprland (layerrule blur on the "waybar" namespace). This file
+ * only provides the translucent tint, the highlight edges and the shapes.
+ * Add the blur rule to hyprland.conf (see the notes next to this file).
+ */
+
+@import "../../colors.css";
+
+/* ---------- Palette ---------- */
+@define-color text       #e9eef7;
+@define-color text_dim   rgba(233, 238, 247, 0.55);
+@define-color accent     #51a2da;   /* Fedora blue */
+@define-color accent_hi  #7cc0f2;
+@define-color glass      rgba(22, 26, 38, 0.32);
+@define-color glass_edge rgba(255, 255, 255, 0.16);
+@define-color green      #8fe3b0;
+@define-color yellow     #f2cd7c;
+@define-color red        #ff7a90;
+
+/* ---------- Reset ---------- */
+* {
+  font-family: "JetBrainsMono Nerd Font", "Symbols Nerd Font", "Inter", "Cantarell", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+window#waybar {
+  background: transparent;
+  color: @text;
+}
+
+/* ---------- Glass pills ---------- */
+#custom-power,
+#taskbar,
+#group-workspaces,
+#custom-center-date,
+#custom-center-time,
+#custom-center-month,
+#custom-notification,
+#workspaces,
+#custom-spotify-prev,
+#mpris,
+#custom-spotify-next,
+#stats,
+#controls {
+  margin: 4px 2px;
+  padding: 0 10px;
+  color: @text;
+  background-color: @glass;
+  background-image: linear-gradient(to bottom,
+                                    rgba(255, 255, 255, 0.09),
+                                    rgba(255, 255, 255, 0.01));
+  border: 1px solid @glass_edge;
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* ---------- Tooltips ---------- */
+tooltip {
+  background-color: rgba(18, 21, 31, 0.84);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+}
+
+tooltip label {
+  color: @text;
+  padding: 2px 6px;
+}
+
+/* ---------- Fedora power-menu trigger ---------- */
+#custom-power {
+  padding: 0 15px 0 13px;
+  font-size: 16px;
+  color: @primary;
+}
+
+#custom-power:hover {
+  color: @primary;
+  background-color: alpha(@primary, 0.30);
+  background-image: none;
+}
+
+#custom-taskbar {
+  margin: 4px 2px;
+  padding: 0 13px;
+  font-size: 16px;
+  color: @primary;
+  background-color: transparent;
+  background-image: none;
+  border: none;
+  box-shadow: none;
+}
+
+#custom-taskbar:hover {
+  color: @primary;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+/* ---------- Workspaces ---------- */
+#workspaces {
+  padding: 0 4px;
+}
+
+#workspaces button {
+  margin: 4px 2px;
+  padding: 0 8px;
+  border-radius: 14px;
+  color: @text_dim;
+  background-color: transparent;
+  background-image: none;
+  transition: all 0.25s ease-in-out;
+}
+
+#workspaces button.empty {
+  color: alpha(@text, 0.30);
+}
+
+#workspaces button:hover {
+  color: @primary;
+  background-color: alpha(@primary, 0.14);
+  background-image: none;
+}
+
+#workspaces button.visible {
+  color: alpha(@primary, 0.75);
+  background-color: alpha(@primary, 0.12);
+}
+
+#workspaces button.active {
+  color: @on_primary;
+  background-color: alpha(@primary, 0.78);
+  background-image: linear-gradient(to bottom,
+                                    rgba(255, 255, 255, 0.28),
+                                    rgba(255, 255, 255, 0));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38);
+}
+
+#workspaces button.urgent {
+  color: #ffffff;
+  background-color: alpha(@red, 0.85);
+  background-image: none;
+}
+
+/* ---------- Dynamic workspace icons ---------- */
+#group-workspaces {
+  padding: 0 4px;
+}
+
+#custom-workspace-1,
+#custom-workspace-2,
+#custom-workspace-3,
+#custom-workspace-4,
+#custom-workspace-5,
+#custom-workspace-6,
+#custom-workspace-7,
+#custom-workspace-8,
+#custom-workspace-9,
+#custom-workspace-10 {
+  margin: 4px 2px;
+  padding: 0 8px;
+  min-width: 12px;
+  border-radius: 14px;
+  color: @text_dim;
+  background-color: transparent;
+  background-image: none;
+  transition: all 0.25s ease-in-out;
+}
+
+#custom-workspace-1.active,
+#custom-workspace-2.active,
+#custom-workspace-3.active,
+#custom-workspace-4.active,
+#custom-workspace-5.active,
+#custom-workspace-6.active,
+#custom-workspace-7.active,
+#custom-workspace-8.active,
+#custom-workspace-9.active,
+#custom-workspace-10.active {
+  color: @on_primary;
+  background-color: alpha(@primary, 0.78);
+  background-image: none;
+  font-size: 15px;
+}
+
+#custom-workspace-1:hover,
+#custom-workspace-2:hover,
+#custom-workspace-3:hover,
+#custom-workspace-4:hover,
+#custom-workspace-5:hover,
+#custom-workspace-6:hover,
+#custom-workspace-7:hover,
+#custom-workspace-8:hover,
+#custom-workspace-9:hover,
+#custom-workspace-10:hover {
+  color: @primary;
+  background-color: alpha(@primary, 0.14);
+  background-image: none;
+}
+
+#custom-workspace-1.empty,
+#custom-workspace-2.empty,
+#custom-workspace-3.empty,
+#custom-workspace-4.empty,
+#custom-workspace-5.empty,
+#custom-workspace-6.empty,
+#custom-workspace-7.empty,
+#custom-workspace-8.empty,
+#custom-workspace-9.empty,
+#custom-workspace-10.empty {
+  color: @text_dim;
+}
+
+#custom-workspace-1.active-empty,
+#custom-workspace-2.active-empty,
+#custom-workspace-3.active-empty,
+#custom-workspace-4.active-empty,
+#custom-workspace-5.active-empty,
+#custom-workspace-6.active-empty,
+#custom-workspace-7.active-empty,
+#custom-workspace-8.active-empty,
+#custom-workspace-9.active-empty,
+#custom-workspace-10.active-empty {
+  color: @on_primary;
+  background-color: alpha(@primary, 0.78);
+  background-image: none;
+  font-size: 15px;
+}
+
+/* ---------- Task manager (open apps) ---------- */
+#taskbar {
+  padding: 0 5px;
+}
+
+/* nothing open: hide the empty pill */
+#taskbar.empty {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+#taskbar button {
+  margin: 4px 1px;
+  padding: 0 6px;
+  border-radius: 12px;
+  background-color: transparent;
+  background-image: none;
+  transition: all 0.25s ease-in-out;
+}
+
+#taskbar button:hover {
+  background-color: transparent;
+  background-image: none;
+}
+
+/* focused window: soft highlight + accent underline */
+#taskbar button.active {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+#taskbar button.minimized {
+  opacity: 0.45;
+}
+
+#taskbar button.urgent {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+}
+
+/* ---------- Center clock land ---------- */
+#group-center-clock {
+  padding: 0;
+}
+
+#custom-center-date,
+#custom-center-time,
+#custom-center-month {
+  margin: 4px 2px;
+  padding: 0 10px;
+  color: @text;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+#custom-center-date {
+  padding-left: 12px;
+}
+
+#custom-center-month {
+  padding-right: 12px;
+}
+
+#custom-center-time {
+  padding: 0 14px;
+  font-size: 14px;
+  border-left: 1px solid alpha(@primary, 0.25);
+  border-right: 1px solid alpha(@primary, 0.25);
+}
+
+#custom-center-date:hover,
+#custom-center-time:hover,
+#custom-center-month:hover {
+  color: @primary;
+}
+
+/* ---------- Spotify controller ---------- */
+
+#mpris {
+  font-size: 14px;
+}
+
+#mpris.playing {
+  color: @text;
+}
+
+#mpris.paused,
+#mpris.stopped {
+  color: @text_dim;
+}
+
+#mpris:hover {
+  color: @green;
+}
+
+/* ---------- Grouped pills: stats + controls ---------- */
+#stats,
+#controls {
+  padding: 0 6px;
+}
+
+#cpu,
+#temperature,
+#memory,
+#network,
+#bluetooth,
+#pulseaudio,
+#backlight,
+#battery {
+  padding: 0 8px;
+  color: @text;
+  background-color: transparent;
+  transition: color 0.2s ease;
+}
+
+#power-profiles-daemon {
+  padding: 0 8px;
+  color: @text;
+  background-color: transparent;
+  transition: color 0.2s ease;
+}
+
+#cpu:hover,
+#temperature:hover,
+#memory:hover,
+#network:hover,
+#bluetooth:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#battery:hover,
+#power-profiles-daemon:hover,
+#custom-notification:hover {
+  color: @primary;
+}
+
+#temperature.critical {
+  color: @red;
+}
+
+#network.disconnected,
+#bluetooth.off,
+#bluetooth.disabled,
+#pulseaudio.muted {
+  color: @text_dim;
+}
+
+#bluetooth.connected {
+  color: @accent_hi;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: @green;
+}
+
+#battery.warning:not(.charging) {
+  color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+  color: @red;
+  animation-name: blink;
+  animation-duration: 0.8s;
+  animation-timing-function: steps(12);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  to {
+    color: #ffffff;
+  }
+}
+
+/* ---------- Power drawer ---------- */
+#power {
+  padding: 0 4px;
+}
+
+#custom-power {
+  padding: 0 10px;
+  color: @primary;
+}
+
+.power-child {
+  padding: 0 9px;
+  color: @text_dim;
+  transition: color 0.2s ease;
+}
+
+.power-child:hover {
+  color: #ffffff;
+}
+
+#custom-shutdown {
+  color: alpha(@red, 0.85);
+}
+
+#custom-shutdown:hover {
+  color: @red;
+}

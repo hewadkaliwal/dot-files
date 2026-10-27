@@ -1,0 +1,371 @@
+// ~/.config/waybar/config.jsonc
+// Glass Waybar for Hyprland on Fedora. Pairs with style.css (same folder).
+// Needs a Nerd Font for the icons (see style.css for the font name).
+{
+  "layer": "top",
+  "position": "top",
+  "height": 40,
+  "margin-top": 1,
+  "margin-left": 1,
+  "margin-right": 1,
+  "spacing": 0,
+  "exclusive": true,
+  "reload_style_on_change": true,
+
+  "modules-left": [
+    "group/workspaces",
+    "group/taskbar",
+    "mpris"
+  ],
+  "modules-center": [
+    "group/center-clock"
+  ],
+  "modules-right": [
+    "group/stats",
+    "group/controls",
+    "custom/notification",
+    "custom/power"
+  ],
+
+  // --- Workspaces: active shows the focused app icon ----------------------
+  "group/workspaces": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/workspace-1",
+      "custom/workspace-2",
+      "custom/workspace-3",
+      "custom/workspace-4",
+      "custom/workspace-5",
+      "custom/workspace-6",
+      "custom/workspace-7",
+      "custom/workspace-8",
+      "custom/workspace-9",
+      "custom/workspace-10",
+      "custom/workspace-watcher"
+    ]
+  },
+  "custom/workspace-1": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-status.sh 1",
+    "return-type": "json",
+    "signal": 8,
+    "hide-empty-text": true,
+    "on-click": "hyprctl dispatch workspace 1",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/workspace-2": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-status.sh 2",
+    "return-type": "json",
+    "signal": 8,
+    "hide-empty-text": true,
+    "on-click": "hyprctl dispatch workspace 2",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/workspace-3": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-status.sh 3",
+    "return-type": "json",
+    "signal": 8,
+    "hide-empty-text": true,
+    "on-click": "hyprctl dispatch workspace 3",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/workspace-4": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-status.sh 4",
+    "return-type": "json",
+    "signal": 8,
+    "hide-empty-text": true,
+    "on-click": "hyprctl dispatch workspace 4",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/workspace-5": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-status.sh 5",
+    "return-type": "json",
+    "signal": 8,
+    "hide-empty-text": true,
+    "on-click": "hyprctl dispatch workspace 5",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/workspace-6": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-status.sh 6",
+    "return-type": "json",
+    "signal": 8,
+    "hide-empty-text": true,
+    "on-click": "hyprctl dispatch workspace 6",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/workspace-7": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-status.sh 7",
+    "return-type": "json",
+    "signal": 8,
+    "hide-empty-text": true,
+    "on-click": "hyprctl dispatch workspace 7",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/workspace-8": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-status.sh 8",
+    "return-type": "json",
+    "signal": 8,
+    "hide-empty-text": true,
+    "on-click": "hyprctl dispatch workspace 8",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/workspace-9": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-status.sh 9",
+    "return-type": "json",
+    "signal": 8,
+    "hide-empty-text": true,
+    "on-click": "hyprctl dispatch workspace 9",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/workspace-10": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-status.sh 10",
+    "return-type": "json",
+    "signal": 8,
+    "hide-empty-text": true,
+    "on-click": "hyprctl dispatch workspace 10",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
+  },
+  "custom/workspace-watcher": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/workspace-events.sh",
+    "format": "",
+    "tooltip": false
+  },
+
+  // --- Task manager: hover the logo to reveal open windows -----------------
+  "group/taskbar": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 350,
+      "click-to-reveal": false,
+      "children-class": "taskbar-child"
+    },
+    "modules": [
+      "custom/taskbar",
+      "wlr/taskbar"
+    ]
+  },
+  "custom/taskbar": {
+    "format": "󰀻",
+    "tooltip-format": "Running applications"
+  },
+
+  // left click = focus, middle click = close window
+  "wlr/taskbar": {
+    "format": "{icon}",
+    "icon-size": 18,
+    "tooltip-format": "{title}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "ignore-list": [],
+    "app_ids-mapping": {
+      "firefoxdeveloperedition": "firefox-developer-edition"
+    }
+  },
+
+  // --- Center land: weekday/date | time | month/year ----------------------
+  "group/center-clock": {
+    "orientation": "horizontal",
+    "modules": [
+      "custom/center-date",
+      "custom/center-time",
+      "custom/center-month"
+    ]
+  },
+  "custom/center-date": {
+    "exec": "date '+%a, %d'",
+    "interval": 30,
+    "format": "{}",
+    "tooltip": false
+  },
+  "custom/center-time": {
+    "exec": "bash ~/.config/waybar/themes/waybar002/center-time.sh",
+    "interval": 1,
+    "signal": 9,
+    "format": "{}",
+    "tooltip": false,
+    "on-click": "bash ~/.config/waybar/themes/waybar002/toggle-time-format.sh"
+  },
+  "custom/center-month": {
+    "exec": "date '+%b, %y'",
+    "interval": 30,
+    "format": "{}",
+    "tooltip": false
+  },
+
+  // --- Spotify controller -------------------------------------------------
+  // [ now playing ]
+  // click the title = play/pause, scroll over it = Spotify volume.
+  // The whole thing hides itself when Spotify is not running.
+  "mpris": {
+    "player": "spotify",
+    "format": "  <small>{dynamic}</small>",
+    "format-paused": "  <small>{dynamic}</small>",
+    "format-stopped": "",
+    "dynamic-order": ["title"],
+    "dynamic-separator": "  -  ",
+    "dynamic-len": 22,
+    "title-len": 22,
+    "ellipsis": "...",
+    "tooltip-format": "{title}\n{artist}\n{album}",
+    "on-click": "playerctl -p spotify play-pause",
+    "on-scroll-up": "playerctl -p spotify volume 0.05+",
+    "on-scroll-down": "playerctl -p spotify volume 0.05-"
+  },
+
+  // --- System stats: CPU / temperature / memory ---------------------------
+  "group/stats": {
+    "orientation": "horizontal",
+    "modules": ["cpu", "temperature", "memory"]
+  },
+
+  "cpu": {
+    "interval": 2,
+    "format": "  {usage}%",
+    "tooltip-format": "CPU usage: {usage}%\nLoad: {load}",
+    "on-click": "kitty -e btop"
+  },
+
+  "temperature": {
+    "interval": 3,
+    // Default reads /sys/class/thermal/thermal_zone0. If the number looks wrong,
+    // find your CPU sensor with:  grep . /sys/class/hwmon/hwmon*/name
+    // then uncomment ONE of these (Intel / AMD) and fix the hwmon number:
+    // "hwmon-path-abs": "/sys/devices/platform/coretemp.0/hwmon",
+    // "input-filename": "temp1_input",
+    // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+    "critical-threshold": 80,
+    "format": "{icon}  {temperatureC}°C",
+    "format-critical": "  {temperatureC}°C",
+    "format-icons": ["", "", "", "", ""],
+    "on-click": "kitty -e btop"
+  },
+
+  "memory": {
+    "interval": 5,
+    "format": "󰍛  {percentage}%",
+    "tooltip-format": "{used:0.1f} GiB used of {total:0.1f} GiB\nSwap: {swapUsed:0.1f} GiB",
+    "on-click": "kitty -e btop"
+  },
+
+  // --- Connectivity + hardware controls -----------------------------------
+  // On a desktop PC, backlight and battery simply hide themselves.
+  "group/controls": {
+    "orientation": "horizontal",
+    "modules": ["network", "bluetooth", "pulseaudio", "backlight", "battery", "power-profiles-daemon"]
+  },
+
+  "network": {
+    "interval": 5,
+    "format-wifi": "{icon}",
+    "format-ethernet": "󰈀  Wired",
+    "format-disconnected": "󰖪  Offline",
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ifname}: {ipaddr}\nUp {bandwidthUpBytes}  Down {bandwidthDownBytes}",
+    "tooltip-format-ethernet": "{ifname}: {ipaddr}",
+    "tooltip-format-disconnected": "Not connected",
+    "max-length": 24,
+    "on-click": "nm-connection-editor"
+  },
+
+  "bluetooth": {
+    "format": "󰂯",
+    "format-off": "󰂲",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱  {device_alias}",
+    "format-connected-battery": "󰂱  {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}  {device_battery_percentage}%",
+    "max-length": 22,
+    "on-click": "blueman-manager",
+    "on-click-right": "bash -c 'if rfkill list bluetooth | grep -q \"Soft blocked: yes\"; then rfkill unblock bluetooth; else rfkill block bluetooth; fi'"
+  },
+
+  // Left click = mixer, right click = mute, scroll = volume
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-bluetooth": "{icon}  {volume}%",
+    "format-muted": "󰖁  Muted",
+    "format-icons": {
+      "headphone": "",
+      "headset": "",
+      "hands-free": "",
+      "default": ["", "", ""]
+    },
+    "tooltip-format": "{desc}\nVolume: {volume}%",
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+
+  // Scroll to change brightness
+  "backlight": {
+    "format": "{icon}  {percent}%",
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "tooltip-format": "Brightness: {percent}%",
+    "scroll-step": 5
+  },
+
+  "battery": {
+    "interval": 30,
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "{timeTo}\n{power:0.1f} W"
+  },
+
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power mode: {profile}\nClick to cycle profiles",
+    "format-icons": {
+      "performance": "",
+      "balanced": "󰗑",
+      "power-saver": "",
+      "default": "󰐥"
+    }
+  },
+
+  "custom/notification": {
+    "tooltip": true,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "󱅫",
+      "none": "󰂜",
+      "dnd-notification": "󰂠",
+      "dnd-none": "󰂜",
+      "inhibited-notification": "󰂛",
+      "inhibited-none": "󰂜",
+      "dnd-inhibited-notification": "󰂛",
+      "dnd-inhibited-none": "󰂜"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
+
+  // --- Power menu sidebar --------------------------------------------------
+  "custom/power": {
+    "format": "",
+    "tooltip-format": "Open Power Menu",
+    "on-click": "qs ipc call power toggle"
+  }
+}
